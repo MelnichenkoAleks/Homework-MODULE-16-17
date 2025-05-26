@@ -6,7 +6,9 @@ public class Rotator : MonoBehaviour
 
     public void ProcessRotateTo(Vector3 direction)
     {
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        Vector3 xzDirection = new Vector3(direction.x, 0, direction.z);
+
+        Quaternion lookRotation = Quaternion.LookRotation(xzDirection);
         float step = _rotationSpeed * Time.deltaTime;
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, step);

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MoveController : MonoBehaviour
+public class MovePlayerController : MonoBehaviour
 {
     private Mover _mover;
 
