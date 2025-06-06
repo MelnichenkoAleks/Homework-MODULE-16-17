@@ -1,28 +1,29 @@
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private SpawnDistribution _spawnController;
+    [SerializeField] private Transform _player;
 
-    private IEnemyIdleBehaviour CreateIdleBehaviour(SpawnPoint spawnPoint)
+    private IEnemyBehaviour CreateIdleBehaviour(SpawnPoint spawnPoint, Enemy enemy)
     {
         return spawnPoint.IdleBehaviourType switch
         {
             IdleBehaviourTypes.Stay => new IdleStayBehaviour(),
-            IdleBehaviourTypes.Patrol => new IdlePatrolBehaviour(spawnPoint.patrolPoints),
-            IdleBehaviourTypes.Random => new IdleRandomBehaviour(),
+            IdleBehaviourTypes.Patrol => new IdlePatrolBehaviour(enemy, spawnPoint.patrolPoints),
+            IdleBehaviourTypes.Random => new IdleRandomBehaviour(enemy),
             _ => new IdleStayBehaviour(),
         };
     }
 
-    private IEnemyAggroBehaviour CreateAggroBehaviour(AggroBehaviourTypes type)
+    private IEnemyBehaviour CreateAggroBehaviour(AggroBehaviourTypes type, Enemy enemy)
     {
         return type switch
         {
-            AggroBehaviourTypes.RunOut => new AggroRunOutBehaviour(),
-            AggroBehaviourTypes.RunIn => new AgroRunInBehaviour(),
-            AggroBehaviourTypes.Die => new AgroDieBehaviour(),
-            _ => new AggroRunOutBehaviour(),
+            AggroBehaviourTypes.RunOut => new AgroRunOutBehaviour(enemy, _player),
+            AggroBehaviourTypes.RunIn => new AgroRunInBehaviour(enemy, _player),
+            AggroBehaviourTypes.Die => new AgroDieBehaviour(enemy),
+            _ => new AgroRunOutBehaviour(enemy, _player),
         };
     }
 
@@ -40,10 +41,10 @@ public class EnemyManager : MonoBehaviour
                     Enemy enemy = Instantiate(enemyPrefab, spawnPoint.Position, Quaternion.identity);
                     spawnPoint.Occupy(enemy);
 
-                    IEnemyIdleBehaviour idleBehaviour = CreateIdleBehaviour(spawnPoint);
-                    IEnemyAggroBehaviour aggroBehaviour = CreateAggroBehaviour(spawnPoint.AggroBehaviourType);
+                    var idleBehaviour = CreateIdleBehaviour(spawnPoint, enemy);
+                    var aggroBehaviour = CreateAggroBehaviour(spawnPoint.AggroBehaviourType, enemy);
 
-                    enemy.SetBehaviours(idleBehaviour, aggroBehaviour);
+                    enemy.SetBehaviours(idleBehaviour, aggroBehaviour, _player);
                 }
             }
         }

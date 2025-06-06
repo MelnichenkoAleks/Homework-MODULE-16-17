@@ -904,10 +904,25 @@ PrefabInstance:
       propertyPath: AggroBehaviourType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 77815383075202447, guid: 442ad781f3107b34ba27af8a7b7fbed2,
+        type: 3}
+      propertyPath: patrolPoints.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 77815383075202447, guid: 442ad781f3107b34ba27af8a7b7fbed2,
+        type: 3}
+      propertyPath: patrolPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 361193061}
     - target: {fileID: 2189230680071490604, guid: 442ad781f3107b34ba27af8a7b7fbed2,
         type: 3}
       propertyPath: m_Name
       value: SpawnPoint (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2189230680071490604, guid: 442ad781f3107b34ba27af8a7b7fbed2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9222468399673360213, guid: 442ad781f3107b34ba27af8a7b7fbed2,
         type: 3}
@@ -975,7 +990,7 @@ GameObject:
   - component: {fileID: 1615497019}
   - component: {fileID: 1615497018}
   m_Layer: 0
-  m_Name: EnemyManager
+  m_Name: EnemySpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -994,6 +1009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnController: {fileID: 1125098322}
+  _player: {fileID: 918199103627421056, guid: 299dcb6be2c09fa4397aaca48d911132, type: 3}
 --- !u!4 &1615497019
 Transform:
   m_ObjectHideFlags: 0
@@ -1149,10 +1165,10 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 366869592}
   - {fileID: 1125098323}
-  - {fileID: 1218732035}
-  - {fileID: 1615497019}
   - {fileID: 1633971682}
   - {fileID: 1436593300}
   - {fileID: 1556513037}
   - {fileID: 235782981}
+  - {fileID: 1615497019}
+  - {fileID: 1218732035}
   - {fileID: 335285300}

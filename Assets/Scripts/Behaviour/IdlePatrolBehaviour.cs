@@ -1,14 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdlePatrolBehaviour : IEnemyIdleBehaviour
+public class IdlePatrolBehaviour : IEnemyBehaviour
 {
+    private readonly Enemy _enemy;
+
     private readonly Transform[] _patrolPoints;
 
     private int _currentPointIndex = 0;
 
-    public IdlePatrolBehaviour(List<Transform> patrolPoints)
+    public IdlePatrolBehaviour(Enemy enemy, List<Transform> patrolPoints)
     {
+        _enemy = enemy;
+
         if (patrolPoints == null || patrolPoints.Count == 0)
         {
             Debug.LogWarning("Patrol points are not set.");
@@ -20,22 +24,30 @@ public class IdlePatrolBehaviour : IEnemyIdleBehaviour
         }
     }
 
-    public void EnemyIdleBehaviour(Enemy enemy)
+    public void Enter()
+    {
+        _currentPointIndex = 0;
+    }
+
+    public void Update()
     {
         if (_patrolPoints.Length == 0) return;
 
         Transform currentTarget = _patrolPoints[_currentPointIndex];
+        Vector3 direction = (currentTarget.position - _enemy.transform.position).normalized;
+        float distance = Vector3.Distance(_enemy.transform.position, currentTarget.position);
 
-        Vector3 direction = (currentTarget.position - enemy.transform.position).normalized;
-
-        float distance = Vector3.Distance(enemy.transform.position, currentTarget.position);
-
-        enemy.ProcessRotateTo(direction);
-        enemy.ProcessMoveTo(direction);
+        _enemy.ProcessRotateTo(direction);
+        _enemy.ProcessMoveTo(direction);
 
         if (distance < 0.25f)
         {
             _currentPointIndex = (_currentPointIndex + 1) % _patrolPoints.Length;
         }
+    }
+
+    public void Exit()
+    {
+        _enemy.ProcessMoveTo(Vector3.zero);
     }
 }

@@ -149,3 +149,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 2422794296598878603, guid: 299dcb6be2c09fa4397aaca48d911132, type: 3}
+  _speed: 3.5
+  _rotationSpeed: 800
+  _agroDistance: 5
